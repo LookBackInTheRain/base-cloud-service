@@ -1,4 +1,4 @@
-package club.yuit.gateway;
+package club.yuit.gateway.filter;
 
 import jdk.nashorn.internal.parser.TokenType;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -24,6 +24,7 @@ public class AuthenticationFilter implements GlobalFilter {
 
         System.out.println("----------------------------------------->");
 
+
         //获取request
         ServerHttpRequest request = exchange.getRequest();
         // 获取 request header
@@ -37,6 +38,9 @@ public class AuthenticationFilter implements GlobalFilter {
             token = headers.get(HttpHeaders.AUTHORIZATION).get(0);
 
             String tokenType=token.substring(0, 6);
+
+
+
         }
 
 
