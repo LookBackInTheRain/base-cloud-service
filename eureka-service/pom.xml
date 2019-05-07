@@ -5,30 +5,24 @@
     <parent>
         <artifactId>root</artifactId>
         <groupId>club.yuit</groupId>
-        <version>${project.version}</version>
+        <version>1.0.RELEASE</version>
         <relativePath>../root/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>common</artifactId>
-
-    <packaging>jar</packaging>
+    <artifactId>eureka-service</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>club.yuit</groupId>
+            <artifactId>common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 

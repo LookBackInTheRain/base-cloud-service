@@ -27,7 +27,10 @@ spring:
     timeout: 10000 # 链接超时时间 （ms）,连接时间小会导致连接超时
   mvc:
     throw-exception-if-no-handler-found: true
-
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
 logging.level.org.springframework.security: DEBUG
 
@@ -35,6 +38,15 @@ logging.level.org.springframework.security: DEBUG
 boot:
   oauth:
     token-store-type: jwt
+
+
+
+#eureka:
+#  instance:
+#    hostname: localhost
+#  client:
+#    service-url:
+#      defaultZone: http://${eureka.instance.hostname}:7001/eureka
 
 
 

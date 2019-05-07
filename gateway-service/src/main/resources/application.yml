@@ -1,3 +1,14 @@
 server:
   port: 7000
 
+spring:
+  application:
+    name: gateway-service
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:7001/eureka
+
