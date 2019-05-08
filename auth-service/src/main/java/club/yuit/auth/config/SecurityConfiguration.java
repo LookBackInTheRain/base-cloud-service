@@ -72,6 +72,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl(properties.getLoginProcessUrl());
         http.httpBasic().disable();
 
+        http.csrf().disable();
+
     }
 
 
