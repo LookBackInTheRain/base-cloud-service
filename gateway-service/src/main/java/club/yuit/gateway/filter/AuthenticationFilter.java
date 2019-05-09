@@ -27,7 +27,6 @@ public class AuthenticationFilter implements GlobalFilter {
 
 
 
-
     public AuthenticationFilter(RemoteTokenService tokenService,
                                 BootGatewayProperties properties,
                                 PathMatcher pathMatcher) {
@@ -57,7 +56,7 @@ public class AuthenticationFilter implements GlobalFilter {
 
                 token=token.trim().substring(6);
 
-                this.tokenService.loadAuthentication(exchange,token,"token/check");
+                this.tokenService.loadAuthentication(exchange,token,properties.getCheckTokenUrl());
 
             }
         }

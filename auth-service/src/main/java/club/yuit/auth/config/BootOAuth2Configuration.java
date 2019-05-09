@@ -155,10 +155,11 @@ public class BootOAuth2Configuration extends AuthorizationServerConfigurerAdapte
         return converter;
     }
 
-    /*@Bean("tokenService")
+    @Bean("tokenService")
+    @Primary
     public DefaultTokenServices defaultTokenServices(){
         DefaultTokenServices services=new DefaultTokenServices();
         services.setTokenStore(tokenStore());
         return  services;
-    }*/
+    }
 }
