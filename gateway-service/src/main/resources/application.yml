@@ -11,4 +11,11 @@ eureka:
   client:
     service-url:
       defaultZone: http://${eureka.instance.hostname}:7001/eureka
+logging:
+  level:
+    root: INFO
 
+
+boot:
+  gateway:
+    permit-urls: /test,/yuit

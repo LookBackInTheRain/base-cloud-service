@@ -1,8 +1,11 @@
 package club.yuit.gateway.config;
 
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -18,6 +21,14 @@ public class CoreConfiguration  {
     public RestTemplate restTemplate(){
         return  new RestTemplate();
     }
+
+    @Bean
+    public PathMatcher pathMatcher (){
+        return new AntPathMatcher();
+    }
+
+
+
 
 
 }

@@ -60,6 +60,8 @@ public class BootExceptionHandler implements ErrorWebExceptionHandler {
 
         String msg="";
 
+        ex.printStackTrace();
+
         // 找不到服务
         if(ex instanceof NotFoundException ){
             status=HttpStatus.BAD_REQUEST.value();

@@ -52,7 +52,7 @@ public class RouteConfiguration {
                         .uri("http://locahost:8001/resources/api/v1")
                 )
                 .route(p -> p
-                        .path("/auth/api/v1")
+                        .path("/auth/api/v1/**")
                         .uri("http://localhost:8000/auth/api/v1")
                 )
                 .build();

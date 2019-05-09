@@ -129,7 +129,7 @@ public class BootOAuth2Configuration extends AuthorizationServerConfigurerAdapte
         endpoints.exceptionTranslator(bootWebResponseExceptionTranslator);
 
 
-        endpoints.pathMapping("/oauth/check_token","/token/check");
+        //endpoints.pathMapping("/oauth/check_token","/token/check");
 
     }
 
@@ -155,11 +155,10 @@ public class BootOAuth2Configuration extends AuthorizationServerConfigurerAdapte
         return converter;
     }
 
-    @Bean("tokenService")
+    /*@Bean("tokenService")
     public DefaultTokenServices defaultTokenServices(){
         DefaultTokenServices services=new DefaultTokenServices();
         services.setTokenStore(tokenStore());
         return  services;
-    }
-
+    }*/
 }
