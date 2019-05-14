@@ -19,7 +19,6 @@ import club.yuit.common.response.Items;
  * @modify by
  * @modify time
  **/
-@SuppressWarnings("all")
 public class JpaQueryUtils<T> {
 
 
@@ -33,13 +32,14 @@ public class JpaQueryUtils<T> {
      * @param orderType
      * @return
      */
+    @SuppressWarnings("unchecked")
     public static PageQueryItems query(JpaRepository repository, Integer currentPage, Integer pageSize, OrderType orderType, String... sortField) {
 
-        OrderType var1 = orderType;
+
         Sort sort = null;
-        if (var1 == null || var1 == orderType.ASC) {
+        if (orderType == null || orderType == OrderType.ASC) {
             sort = new Sort(Sort.Direction.ASC, sortField);
-        } else if (var1 == var1.DESC) {
+        } else if (orderType == OrderType.DESC) {
             sort = new Sort(Sort.Direction.DESC, sortField);
         } else {
             throw new ArgumentsFailureException("排序参数错误");
@@ -64,6 +64,7 @@ public class JpaQueryUtils<T> {
 
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> Items finAll(JpaRepository repository){
         long count=repository.count();
         List<T> ts=repository.findAll();

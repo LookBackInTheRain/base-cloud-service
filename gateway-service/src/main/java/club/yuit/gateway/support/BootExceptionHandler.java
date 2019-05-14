@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.codec.HttpMessageReader;
 import org.springframework.http.codec.HttpMessageWriter;
 import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.reactive.function.server.*;
 import org.springframework.web.reactive.result.view.ViewResolver;
 import org.springframework.web.server.ResponseStatusException;
@@ -69,6 +70,9 @@ public class BootExceptionHandler implements ErrorWebExceptionHandler {
         }else if (ex instanceof ResponseStatusException){
             status = ((ResponseStatusException) ex).getStatus().value();
             msg = ex.getMessage();
+        } else if(ex instanceof BootWebClientResponseException){
+            status=((BootWebClientResponseException) ex).getStatus();
+
         }else {
             status = HttpStatus.INTERNAL_SERVER_ERROR.value();
             msg= HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();

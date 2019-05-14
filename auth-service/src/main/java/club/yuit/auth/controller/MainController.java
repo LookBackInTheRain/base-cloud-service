@@ -1,10 +1,14 @@
 package club.yuit.auth.controller;
 
+import club.yuit.auth.entity.User;
 import club.yuit.auth.service.UserService;
 import club.yuit.auth.support.CheckPermission;
+import club.yuit.common.exception.ArgumentsFailureException;
 import club.yuit.common.response.HttpResponse;
 import club.yuit.common.response.SimpleResponse;
 import club.yuit.common.support.PermissionProperties;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -19,6 +23,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
 import java.util.Map;
 
+import static club.yuit.common.response.HttpResponse.successSimpleResponse;
+
 @RestController
 public class MainController {
 
@@ -30,28 +36,35 @@ public class MainController {
     private CheckPermission checkPermission;
 
     public MainController(
-           DefaultTokenServices tokenServices,
+            DefaultTokenServices tokenServices,
             UserService userService,
             CheckPermission checkPermission) {
-       this.tokenServices = tokenServices;
+        this.tokenServices = tokenServices;
         this.userService = userService;
         this.checkPermission = checkPermission;
-    }
 
+
+    }
 
 
     @PostMapping("/token/check")
     public void check(@RequestBody PermissionProperties permission, HttpServletRequest request,
-                      HttpServletResponse response){
+                      HttpServletResponse response) {
 
-        Map<String,?> token=request.getParameterMap();
+        Map<String, ?> token = request.getParameterMap();
 
-       String uri= request.getRequestURI();
+        String uri = request.getRequestURI();
 
-       String method = request.getMethod();
+        String method = request.getMethod();
 
-      OAuth2AccessToken auth2AccessToken= tokenServices.readAccessToken(permission.getToken());
+        OAuth2AccessToken auth2AccessToken = tokenServices.readAccessToken(permission.getToken());
 
+        if (permission.getToken() == null) {
+            throw new ArgumentsFailureException();
+        }
+        if(StringUtils.countMatches(permission.getToken(),".")!=2){
+            throw new ArgumentsFailureException();
+        }
 
 
         if (auth2AccessToken == null) {
@@ -64,10 +77,9 @@ public class MainController {
 
         OAuth2Authentication auth2Authentication = tokenServices.loadAuthentication(auth2AccessToken.getValue());
 
-        checkPermission.check(request,auth2Authentication.getUserAuthentication());
+        checkPermission.check(request, auth2Authentication.getUserAuthentication());
 
     }
-
 
 
 }

@@ -1,7 +1,9 @@
 package club.yuit.auth.handler;
 
+import club.yuit.common.exception.ArgumentsFailureException;
 import club.yuit.common.response.BaseResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -25,6 +27,19 @@ public class BootExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public BaseResponse notFoundException(HttpServletResponse response) {
         return baseResponse(404, "找不到服务");
+    }
+
+
+    @ExceptionHandler(value = ArgumentsFailureException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public BaseResponse argumentException(){
+        return baseResponse(400,"参数错误");
+    }
+
+    @ExceptionHandler(value = InvalidTokenException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public BaseResponse tokenException(){
+        return baseResponse(401,"Token 无效或过期");
     }
 
 

@@ -38,8 +38,6 @@ public class AuthenticationFilter implements GlobalFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
-
-
         //获取request
         ServerHttpRequest request = exchange.getRequest();
         // 获取 request header
@@ -51,13 +49,9 @@ public class AuthenticationFilter implements GlobalFilter {
             if(headers.containsKey(HttpHeaders.AUTHORIZATION)&&
                     headers.get(HttpHeaders.AUTHORIZATION).size()==1){
                 token = headers.get(HttpHeaders.AUTHORIZATION).get(0);
-
                 String tokenType=token.substring(0,6);
-
                 token=token.trim().substring(6);
-
-                this.tokenService.loadAuthentication(exchange,token,properties.getCheckTokenUrl());
-
+               return this.tokenService.loadAuthentication(exchange,token,properties.getCheckTokenUrl(),chain);
             }
         }
 
@@ -66,8 +60,6 @@ public class AuthenticationFilter implements GlobalFilter {
 
 
     private Boolean predicate(ServerWebExchange exchange){
-
-
 
         ServerHttpRequest request=exchange.getRequest();
 

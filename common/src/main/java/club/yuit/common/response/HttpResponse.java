@@ -40,13 +40,13 @@ public final class HttpResponse {
         return simpleResponse(status, msg, null);
     }
 
-    public  static SimpleResponse simpleResponse(int status, Object data) {
+    public  static <T> SimpleResponse<T> simpleResponse(int status, T data) {
         return simpleResponse(status, null, data);
     }
 
-    public  static SimpleResponse simpleResponse(int status, String msg, Object data) {
+    public  static <T> SimpleResponse<T> simpleResponse(int status, String msg, T data) {
 
-        SimpleResponse response = new SimpleResponse();
+        SimpleResponse<T> response = new SimpleResponse<T>();
         response.setStatus(status);
         if (msg != null) {
             response.setMsg(msg);
@@ -57,11 +57,11 @@ public final class HttpResponse {
         return response;
     }
 
-    public static SimpleResponse successSimpleResponse(Object data){
+    public static <T>  SimpleResponse<T> successSimpleResponse(T data){
         return simpleResponse(200,data);
     }
 
-    public static SimpleResponse successSimpleResponse(String msg,Object data){
+    public static <T> SimpleResponse<T> successSimpleResponse(String msg,T data){
         return simpleResponse(200,msg,data);
     }
 

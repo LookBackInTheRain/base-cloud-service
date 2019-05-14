@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Configuration;
  *
  * 配置
  */
-
 @EnableConfigurationProperties
 @ConfigurationProperties(prefix = "boot.oauth")
 @Configuration
