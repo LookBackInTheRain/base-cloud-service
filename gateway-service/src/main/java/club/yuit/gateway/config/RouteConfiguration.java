@@ -44,7 +44,7 @@ public class RouteConfiguration {
      * @param builder
      * @return
      */
-    @Bean
+   /* @Bean
     public RouteLocator routeLocator(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route(p -> p
@@ -56,7 +56,7 @@ public class RouteConfiguration {
                         .uri("http://localhost:8000/auth/api/v1")
                 )
                 .build();
-    }
+    }*/
 
 
     @Bean

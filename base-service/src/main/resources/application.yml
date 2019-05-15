@@ -1,0 +1,38 @@
+server:
+  port: 8001
+
+spring:
+  application:
+    name: base-service
+  datasource:
+    username: dev
+    password: Sys@gzu123+
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://172.16.2.103:3306/sys_cloud_db?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 50
+      auto-commit: true
+      idle-timeout: 30000
+      pool-name: BaseServiceHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 10000
+      connection-test-query: SELECT 1
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:7001/eureka
+
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper # mapper 文件路径
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: uuid
+      db-type: mysql

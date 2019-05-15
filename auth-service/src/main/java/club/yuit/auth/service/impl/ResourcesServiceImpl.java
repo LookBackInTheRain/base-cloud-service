@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.List;
 
-import static club.yuit.common.response.HttpResponse.*;
+import static club.yuit.common.response.HttpResponseUtils.*;
 
 
 /**

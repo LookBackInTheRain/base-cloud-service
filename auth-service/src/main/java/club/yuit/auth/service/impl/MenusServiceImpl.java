@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.*;
 
-import static club.yuit.common.response.HttpResponse.*;
+import static club.yuit.common.response.HttpResponseUtils.*;
 
 
 //import edu.gzu.mysql.entity.output.menu.MenuDetails;

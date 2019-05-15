@@ -1,6 +1,7 @@
 package club.yuit.auth.handler;
 
 import club.yuit.common.exception.ArgumentsFailureException;
+import club.yuit.common.exception.NotAuthorityException;
 import club.yuit.common.response.BaseResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
@@ -11,7 +12,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletResponse;
 
-import static club.yuit.common.response.HttpResponse.baseResponse;
+import static club.yuit.common.response.HttpResponseUtils.baseResponse;
 
 /**
  * @author yuit
@@ -39,7 +40,14 @@ public class BootExceptionHandler {
     @ExceptionHandler(value = InvalidTokenException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public BaseResponse tokenException(){
-        return baseResponse(401,"Token 无效或过期");
+        return baseResponse(401,"授权丢失");
+    }
+
+
+    @ExceptionHandler(value = NotAuthorityException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public BaseResponse notAuthority(){
+        return baseResponse(HttpStatus.FORBIDDEN.value(),"没有权限");
     }
 
 

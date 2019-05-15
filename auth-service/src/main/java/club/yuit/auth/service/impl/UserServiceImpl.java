@@ -24,7 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static club.yuit.common.response.HttpResponse.*;
+import static club.yuit.common.response.HttpResponseUtils.*;
 
 
 /**

@@ -5,6 +5,7 @@ import club.yuit.auth.entity.User;
 import club.yuit.auth.service.ResourcesService;
 import club.yuit.common.exception.NotAuthException;
 import club.yuit.common.exception.NotAuthorityException;
+import club.yuit.common.support.BootRequestProperties;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -38,11 +39,11 @@ public class CheckPermission {
     /**
      * 检查是否具有访问权限
      *
-     * @param request
+     * @param requestProperties
      * @param authentication
      * @return
      */
-    public void check(HttpServletRequest request, Authentication authentication) {
+    public void check(BootRequestProperties requestProperties, Authentication authentication) {
 
         Object obj = authentication.getPrincipal();
 
@@ -64,7 +65,7 @@ public class CheckPermission {
         }
 
         // 请求uri
-        String path = request.getRequestURI();
+        String path = requestProperties.getUrl();
 
 
         /*
@@ -77,7 +78,7 @@ public class CheckPermission {
         // 请求uri
         //String path = request.getRequestURI();
         // 请求方法
-        String method = request.getMethod();
+        String method = requestProperties.getMethod();
 
         AntPathMatcher pathMatcher = new AntPathMatcher();
 

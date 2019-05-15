@@ -25,6 +25,7 @@ public class Resources {
   private String url;
   private String description;
   private String method;
+  private String serviceId;
   @CreationTimestamp
   private Date createTime;
   @UpdateTimestamp

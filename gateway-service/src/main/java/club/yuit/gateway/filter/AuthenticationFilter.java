@@ -1,5 +1,6 @@
 package club.yuit.gateway.filter;
 
+import club.yuit.common.support.BootRequestProperties;
 import club.yuit.gateway.support.BootGatewayProperties;
 import club.yuit.gateway.support.RemoteTokenService;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -14,6 +15,7 @@ import reactor.core.publisher.Mono;
 /**
  * @author yuit
  * @date 2019/5/5 16:58
+ * 全局统一鉴权
  **/
 @Component
 public class AuthenticationFilter implements GlobalFilter {
@@ -22,8 +24,6 @@ public class AuthenticationFilter implements GlobalFilter {
     private RemoteTokenService tokenService;
     private BootGatewayProperties properties;
     private PathMatcher pathMatcher;
-
-
 
 
 
@@ -43,6 +43,8 @@ public class AuthenticationFilter implements GlobalFilter {
         // 获取 request header
         HttpHeaders headers=request.getHeaders();
 
+        String contextPath=request.getPath().contextPath().value();
+
         String token = null;
 
         if (predicate(exchange)){
@@ -51,7 +53,11 @@ public class AuthenticationFilter implements GlobalFilter {
                 token = headers.get(HttpHeaders.AUTHORIZATION).get(0);
                 String tokenType=token.substring(0,6);
                 token=token.trim().substring(6);
-               return this.tokenService.loadAuthentication(exchange,token,properties.getCheckTokenUrl(),chain);
+
+                BootRequestProperties requestProperties
+                        = new BootRequestProperties(request.getPath().toString(),token.trim(),request.getMethodValue());
+
+                return this.tokenService.loadAuthentication(exchange,chain,requestProperties);
             }
         }
 
@@ -59,6 +65,11 @@ public class AuthenticationFilter implements GlobalFilter {
     }
 
 
+    /**
+     * 判断是否需要鉴权
+     * @param exchange exchange
+     * @return {@link java.lang.Boolean}
+     */
     private Boolean predicate(ServerWebExchange exchange){
 
         ServerHttpRequest request=exchange.getRequest();
@@ -78,7 +89,7 @@ public class AuthenticationFilter implements GlobalFilter {
     /**
      * 判断是否为全局允许的url
      * @param url 请求url
-     * @return
+     * @return {@link java.lang.Boolean}
      */
     private boolean isPermitAllUrl(String url){
 

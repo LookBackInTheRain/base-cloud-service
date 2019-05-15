@@ -10,20 +10,9 @@ import java.util.List;
  *
  **/
 @Data
-public class PageQueryItems<T> {
+public class PageQueryItems<T> extends Items<T> {
 
     private Integer currentPage;
     private Integer pageSize;
-    private Long count;
-    private List<T> items;
 
-    public PageQueryItems(Integer currentPage, Integer pageSize, Long count, List<T> items) {
-        this.currentPage = currentPage;
-        this.pageSize = pageSize;
-        this.count = count;
-        this.items = items;
-    }
-
-    public PageQueryItems() {
-    }
 }

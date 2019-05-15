@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.yuit.base.mapper.MenuMapper">
+
+
+    <select id="findMenuByUsername" parameterType="String" resultType="List">
+        SELECT DISTINCT *
+        FROM menus,
+             (select ma.menuId
+              from menus_authority ma,
+                   (select ra.authorityId
+                    from role_authority ra,
+                         (select ur.roleId
+                          from user_role ur,
+                               (select id from sys_user where userName = #{username}) rs
+                          where ur.userId = rs.id) rs
+                    where ra.roleId = rs.roleId) rs
+              where ma.authorityId = rs.authorityId) rs
+        WHERE menus.id = rs.menuId
+        order by sort asc
+    </select>
+
+</mapper>

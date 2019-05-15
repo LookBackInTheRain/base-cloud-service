@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-import static club.yuit.common.response.HttpResponse.successResponse;
+import static club.yuit.common.response.HttpResponseUtils.successResponse;
 
 
 /**

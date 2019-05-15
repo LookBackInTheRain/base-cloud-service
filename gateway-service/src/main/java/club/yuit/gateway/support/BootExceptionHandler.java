@@ -18,7 +18,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.*;
 
-import static club.yuit.common.response.HttpResponse.baseResponse;
+import static club.yuit.common.response.HttpResponseUtils.baseResponse;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
 /**
@@ -59,23 +59,34 @@ public class BootExceptionHandler implements ErrorWebExceptionHandler {
 
         int status = 0;
 
-        String msg="";
+        String msg = "";
 
         ex.printStackTrace();
 
+        //ex.printStackTrace();
+
         // 找不到服务
-        if(ex instanceof NotFoundException ){
-            status=HttpStatus.BAD_REQUEST.value();
-            msg= HttpStatus.BAD_REQUEST.getReasonPhrase();
-        }else if (ex instanceof ResponseStatusException){
+        if (ex instanceof NotFoundException) {
+            status = HttpStatus.BAD_REQUEST.value();
+            msg = HttpStatus.BAD_REQUEST.getReasonPhrase();
+        } else if (ex instanceof ResponseStatusException) {
             status = ((ResponseStatusException) ex).getStatus().value();
             msg = ex.getMessage();
-        } else if(ex instanceof BootWebClientResponseException){
-            status=((BootWebClientResponseException) ex).getStatus();
+        } else if (ex instanceof BootWebClientResponseException) {
+            status = ((BootWebClientResponseException) ex).getStatus();
 
-        }else {
+            switch (status) {
+                case 401:
+                    msg = "授权丢失";
+                    break;
+                default:
+                    msg = "没有权限";
+                    break;
+            }
+
+        } else {
             status = HttpStatus.INTERNAL_SERVER_ERROR.value();
-            msg= HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
+            msg = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
         }
 
         return routerFunction(status, msg)
@@ -96,7 +107,7 @@ public class BootExceptionHandler implements ErrorWebExceptionHandler {
 
             return ServerResponse.status(status)
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .body(BodyInserters.fromObject(baseResponse(status,msg)));
+                    .body(BodyInserters.fromObject(baseResponse(status, msg)));
 
         });
     }

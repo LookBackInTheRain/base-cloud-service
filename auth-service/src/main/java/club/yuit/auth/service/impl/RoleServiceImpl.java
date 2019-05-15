@@ -21,7 +21,7 @@ import java.util.List;
 
 import static club.yuit.auth.jpa.JpaQueryUtils.finAll;
 import static club.yuit.auth.jpa.JpaQueryUtils.query;
-import static club.yuit.common.response.HttpResponse.*;
+import static club.yuit.common.response.HttpResponseUtils.*;
 
 /**
  * @author yuit
