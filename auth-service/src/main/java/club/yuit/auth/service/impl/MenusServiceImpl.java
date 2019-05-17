@@ -52,13 +52,13 @@ public class MenusServiceImpl implements MenusService {
      * @return
      */
     @Override
-    public SimpleResponse getUserMenus(String username) {
+    public SimpleResponse getUserMenus(String id) {
         Map<String, Object> mapJSON = new HashMap<>();
         Map<String, Object> mapAPP = new HashMap<>();
         mapAPP.put("name", "监管系统");
         mapAPP.put("description", "基础管理系统");
 
-        User user=this.userJpa.findByUsername(username);
+        User user=this.userJpa.findUserById(id);
 
 
         Map<String, Object> mapUser = new HashMap<>(16);

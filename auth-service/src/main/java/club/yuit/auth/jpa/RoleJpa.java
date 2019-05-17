@@ -41,4 +41,7 @@ public interface RoleJpa extends RootJpa<Role,String> {
     @Query(value = LongSQLQuery.QUERY_ROLES_BY_USER_ID,nativeQuery = true)
     List<Role> findByUserId(String ids);
 
+    @Query(value = "select rls.* from role as rls,(select roleId from user_role where userId = ?1) res where rls.id = res.roleId",nativeQuery = true)
+    List<Role> findRoleNameByUserId(String id);
+
 }

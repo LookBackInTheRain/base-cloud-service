@@ -44,6 +44,9 @@ public class User implements UserDetails {
     @Transient
     private List<? extends GrantedAuthority> authorities;
 
+    @Transient
+    private List<String> roles;
+
 
     @Override
     public List<? extends GrantedAuthority> getAuthorities() {

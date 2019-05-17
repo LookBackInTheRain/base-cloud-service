@@ -52,9 +52,7 @@ public class RemoteTokenService {
 
     public Mono<Void> loadAuthentication(ServerWebExchange exchange, GatewayFilterChain chain, BootRequestProperties requestProperties) {
 
-        ServiceInstance instance = this.balancerClient.choose("auth-service");
-
-        String tokenPath = String.format("http://%s%s", instance.getServiceId(), properties.getCheckTokenUrl());
+        String tokenPath = String.format("http://%s%s", properties.getAuthServerId(), properties.getCheckTokenUrl());
 
         Route route = exchange.getAttribute("org.springframework.cloud.gateway.support.ServerWebExchangeUtils.gatewayRoute");
 
@@ -67,6 +65,9 @@ public class RemoteTokenService {
                 .body(BodyInserters.fromObject(requestProperties))
                 .exchange()
                 .flatMap(res -> {
+
+                    System.out.println("------------------------->"+res.statusCode().value());
+
                     if(res.statusCode()== HttpStatus.OK){
                         return chain.filter(exchange);
                     }

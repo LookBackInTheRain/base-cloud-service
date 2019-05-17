@@ -68,7 +68,7 @@ public class CoreConfig extends WebMvcConfigurationSupport {
                 .globalOperationParameters(parameters)
                 .apiInfo(this.apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("edu.gzu.auth.controller"))
+                .apis(RequestHandlerSelectors.basePackage("club.yuit.auth.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }

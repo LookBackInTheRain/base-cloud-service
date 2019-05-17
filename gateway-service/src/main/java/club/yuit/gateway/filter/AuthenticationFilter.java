@@ -39,7 +39,7 @@ public class AuthenticationFilter implements GlobalFilter {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
         //获取request
-        ServerHttpRequest request = exchange.getRequest();
+         ServerHttpRequest request = exchange.getRequest();
         // 获取 request header
         HttpHeaders headers=request.getHeaders();
 

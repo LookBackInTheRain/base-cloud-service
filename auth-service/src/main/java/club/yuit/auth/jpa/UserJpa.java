@@ -32,10 +32,10 @@ public interface UserJpa extends RootJpa<User,String> {
     @Query(value = "delete from User u where u.id in (:ids) ")
     int userDeleteByIds(@Param("ids") List<String> ids);
 
-
     User findUserById(String id);
 
-    User findByUsername(String username);
+    @Query("from User where username =:username and id <>:id")
+    User findByUsernameAndNotEqId(String username,String id);
 
 
     @Query("from User u where u.id=:key")

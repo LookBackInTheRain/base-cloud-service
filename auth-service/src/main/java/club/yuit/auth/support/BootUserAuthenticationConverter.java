@@ -1,5 +1,6 @@
 package club.yuit.auth.support;
 
+import club.yuit.auth.entity.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
@@ -24,12 +25,12 @@ public class BootUserAuthenticationConverter extends DefaultUserAuthenticationCo
 
         Map<String, Object> response = new LinkedHashMap<>();
         response.put(USERNAME, authentication.getName());
-        if (authentication.getAuthorities() != null && !authentication.getAuthorities().isEmpty()) {
-            response.put(AUTHORITIES, AuthorityUtils.authorityListToSet(authentication.getAuthorities()));
+
+        User user = (User) authentication.getPrincipal();
+
+        if (user!= null && !user.getRoles().isEmpty()) {
+            response.put("roles", user.getRoles() );
         }
-
-        response.put("sub",authentication.getName());
-
         return response;
     }
 }

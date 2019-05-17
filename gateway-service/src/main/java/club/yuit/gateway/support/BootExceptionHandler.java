@@ -79,6 +79,9 @@ public class BootExceptionHandler implements ErrorWebExceptionHandler {
                 case 401:
                     msg = "授权丢失";
                     break;
+                case 404:
+                    msg="找不到服务";
+                    break;
                 default:
                     msg = "没有权限";
                     break;

@@ -37,14 +37,14 @@ public interface UserService {
      * @param id
      * @return
      */
-    BaseResponse userDelete(String id);
+    BaseResponse userDelete(String id,String currentKey);
 
     /**
      * 批量删除 通过id
      * @param ids
      * @return
      */
-    BaseResponse userDeleteByIds(List<String> ids);
+    BaseResponse userDeleteByIds(List<String> ids,String currentKey);
     SimpleResponse getUser(String id);
 
     /**

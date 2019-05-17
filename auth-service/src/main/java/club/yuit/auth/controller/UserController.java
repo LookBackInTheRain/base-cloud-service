@@ -84,15 +84,15 @@ public class UserController {
     @DeleteMapping("/{id}")
     @ApiOperation(value = "删除用户", notes = "根据id删除用户")
     @ApiImplicitParam(name = "id", value = "用户id", dataType = "String")
-    public BaseResponse userDelete(@PathVariable String id) {
-        return userService.userDelete(id);
+    public BaseResponse userDelete(@PathVariable String id,@RequestParam String currentKey) {
+        return userService.userDelete(id,currentKey);
     }
 
     @DeleteMapping("/batch")
     @ApiOperation(value = "批量删除用户", notes = "根据ids批量删除用户")
     @ApiImplicitParam(name = "ids", value = "要删除的id字符串数组", dataType = "List<String>", example = "121,122,123")
-    public BaseResponse deleteByIds(@RequestBody List<String> ids) {
-        return userService.userDeleteByIds(ids);
+    public BaseResponse deleteByIds(@RequestBody List<String> ids,@RequestParam String currentKey) {
+        return userService.userDeleteByIds(ids,currentKey);
     }
 
     @GetMapping("/{id}")

@@ -56,7 +56,6 @@ public class UserServiceImpl implements UserService {
     }*/
 
 
-
     @Override
     public User findUserByUsername(String username) {
         return this.userJap.findUserByUsernameOrEmail(username);
@@ -71,16 +70,15 @@ public class UserServiceImpl implements UserService {
         if (users != null && users.size() == 1) {
             user = users.get(0);
 
-            List<Map<String, Object>> roles = userJap.findUserRole(user.getId());
+            List<Role> roles = this.roleJpa.findRoleNameByUserId(user.getId());
 
-            List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+            List<String> roleNames = new ArrayList<>();
 
             roles.forEach(item -> {
-                SimpleGrantedAuthority authority = new SimpleGrantedAuthority(item.get("name").toString());
-                authorities.add(authority);
+                roleNames.add(item.getName());
             });
 
-            user.setAuthorities(authorities);
+            user.setRoles(roleNames);
         }
 
         return user;
@@ -103,7 +101,12 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional
-    public BaseResponse userDelete(String id) {
+    public BaseResponse userDelete(String id, String currentKey) {
+
+        if (id.equals(currentKey)) {
+            throw new ArgumentsFailureException("不能删除当前登录用户");
+        }
+
         if (userJap.userDelete(id) != 0) {
             return successResponse("删除成功!");
         } else {
@@ -119,7 +122,11 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional
-    public BaseResponse userDeleteByIds(List<String> ids) {
+    public BaseResponse userDeleteByIds(List<String> ids, String currentKey) {
+
+        if (ids.contains(currentKey)) {
+            throw new ArgumentsFailureException("不能删除当前登录用户");
+        }
 
         if (userJap.userDeleteByIds(ids) != 0) {
             return successResponse("批量删除成功!");
@@ -186,7 +193,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (userInput.getUsername() != null) {
-            if (userJap.findByUsername(userInput.getUsername())!=null) {
+            if (userJap.findByUsernameAndNotEqId(userInput.getUsername(), userInput.getId()) != null) {
                 throw new ArgumentsFailureException("用户名已存在！");
             }
         }

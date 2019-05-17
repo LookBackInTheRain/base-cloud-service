@@ -39,17 +39,10 @@ public class MenuController {
         this.menusService = menusService;
     }
 
-    @GetMapping()
+    @GetMapping("/{id}")
     @ApiOperation(value = "获取所有菜单")
-    public SimpleResponse getAllMenusByUser(@ApiIgnore Authentication authentication) {
-
-        if(authentication==null||authentication instanceof AnonymousAuthenticationToken){
-            throw new AccessDeniedException("没有身份认证！");
-        }
-
-        String  username = authentication.getPrincipal().toString();
-
-        return menusService.getUserMenus(username);
+    public SimpleResponse getAllMenusByUser(@PathVariable String id) {
+        return menusService.getUserMenus(id);
     }
 
     @GetMapping("/level")

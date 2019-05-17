@@ -27,7 +27,7 @@ public class BootTokenEnhancer implements TokenEnhancer {
         User user= (User) authentication.getUserAuthentication().getPrincipal();
 
         Map<String,Object> info =new LinkedHashMap<>();
-        info.put("sub",user.getUsername());
+        info.put("key",user.getId());
 
         ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(info);
 

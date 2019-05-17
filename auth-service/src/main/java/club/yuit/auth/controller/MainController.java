@@ -1,21 +1,22 @@
 package club.yuit.auth.controller;
 
-import club.yuit.auth.service.UserService;
+import club.yuit.auth.entity.User;
 import club.yuit.auth.support.CheckPermission;
 import club.yuit.common.exception.ArgumentsFailureException;
+import club.yuit.common.response.HttpResponseUtils;
+import club.yuit.common.response.SimpleResponse;
 import club.yuit.common.support.BootRequestProperties;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
@@ -24,18 +25,27 @@ public class MainController {
 
     private DefaultTokenServices tokenServices;
 
-    private UserService userService;
-
     private CheckPermission checkPermission;
+
+    private DiscoveryClient client;
 
     public MainController(
             DefaultTokenServices tokenServices,
-            UserService userService,
-            CheckPermission checkPermission) {
+            CheckPermission checkPermission, DiscoveryClient client) {
         this.tokenServices = tokenServices;
-        this.userService = userService;
         this.checkPermission = checkPermission;
 
+
+        this.client = client;
+    }
+
+
+    @GetMapping("/services")
+    public SimpleResponse serviceIds(){
+
+        List<String> services=this.client.getServices();
+
+        return HttpResponseUtils.successSimpleResponse(services);
 
     }
 
@@ -62,9 +72,18 @@ public class MainController {
             throw new InvalidTokenException("Token has expired");
         }
 
+
+        List<String> roles= (ArrayList<String>) auth2AccessToken.getAdditionalInformation().get("roles");
+
+
         OAuth2Authentication auth2Authentication = tokenServices.loadAuthentication(auth2AccessToken.getValue());
 
-        checkPermission.check(requestProperties, auth2Authentication.getUserAuthentication());
+        User user = new User();
+
+        user.setRoles(roles);
+        user.setUsername(auth2Authentication.getName());
+
+        checkPermission.check(requestProperties, user);
 
     }
 

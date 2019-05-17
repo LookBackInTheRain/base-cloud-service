@@ -19,9 +19,9 @@ import java.util.List;
 @ConfigurationProperties(prefix = "boot.gateway")
 public class BootGatewayProperties {
 
-    private String checkTokenUrl="/auth/api/v1/token/check";
+    private String checkTokenUrl="/auth-service/token/check";
     private String authServerId="auth-service";
-    private String tokenUrl="/auth/api/v1/oauth/token";
+    private String tokenUrl="/auth-service/oauth/token";
     private List<String> permitUrls;
 
 }

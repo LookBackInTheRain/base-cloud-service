@@ -5,13 +5,15 @@ spring:
   application:
     name: gateway-service
   cloud:
-    discovery:
     gateway:
+      discovery:
+        locator:
+          lower-case-service-id: true
       routes:
        - id: auth-service
          uri: lb://AUTH-SERVICE
          predicates:
-           - Path= /auth/api/v1/**
+           - Path= /auth-service/**
 
 
 eureka:
@@ -22,9 +24,7 @@ eureka:
       defaultZone: http://${eureka.instance.hostname}:7001/eureka
 logging:
   level:
-    root: INFO
-
-
+    org.springframework.cloud.gateway: debug
 
 
 boot:

@@ -1,7 +1,7 @@
 server:
   port: 8000
   servlet:
-    context-path: /auth/api/v1
+    context-path: /auth-service
 
 spring:
   application:
@@ -11,8 +11,17 @@ spring:
     username: dev
     password: Sys@gzu123+
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://172.16.2.103:3306/sys_base_db?useUnicode=true&characterEncoding=utf-8&useSSL=false
-    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://172.16.2.103:3306/sys_cloud_db?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 50
+      auto-commit: true
+      idle-timeout: 30000
+      pool-name: BaseServiceHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 10000
+      connection-test-query: SELECT 1
   #redis 配置
   redis:
     host: 172.16.2.104
